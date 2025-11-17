@@ -12,7 +12,7 @@ function Extension() {
   const [error, setError] = useState(null);
   const [downloadUrl, setDownloadUrl] = useState(null);
 
-  const appUrl = "https://summit-legendary-chem-curtis.trycloudflare.com";
+  const appUrl = "https://remix-checkout-ui-extension.vercel.app/";
 
   useEffect(() => {
     const fetchPdfUrl = async (retryCount = 0) => {

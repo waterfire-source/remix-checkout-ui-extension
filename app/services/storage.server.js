@@ -3,7 +3,7 @@ import { join } from "path";
 import { existsSync } from "fs";
 
 /**
- * Alternative to S3: Store PDFs on the server's file system
+ * Store PDFs on the server's file system
  * This stores PDFs in a 'public/pdfs' directory and serves them via a route
  *
  * @param {Buffer} pdfBuffer - The PDF file buffer

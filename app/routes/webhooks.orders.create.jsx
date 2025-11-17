@@ -24,13 +24,13 @@ export const action = async ({ request }) => {
       orderId = orderId.split("/").pop();
     }
     const orderIdString = orderId.toString();
-    
-    const orderNumber = orderData.name || 
-                       orderData.order_number || 
-                       orderData.number || 
-                       orderData.order_name || 
-                       null;
-    
+
+    const orderNumber = orderData.name ||
+      orderData.order_number ||
+      orderData.number ||
+      orderData.order_name ||
+      null;
+
     console.log(`[Webhook] Extracted orderId: ${orderIdString}, orderNumber: ${orderNumber}`);
 
     const pdfBuffer = await generateOrderPdf(orderData);
@@ -41,11 +41,6 @@ export const action = async ({ request }) => {
     let pdfUrl;
 
     switch (storageMethod) {
-      case "s3":
-        const { uploadPdfToS3 } = await import("../services/s3.server");
-        pdfUrl = await uploadPdfToS3(pdfBuffer, fileName);
-        break;
-
       case "cloudinary":
         try {
           const { uploadPdfToCloudinary } = await import(

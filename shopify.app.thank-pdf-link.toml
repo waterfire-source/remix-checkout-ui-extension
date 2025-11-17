@@ -2,7 +2,7 @@
 
 client_id = "1325ed7dad45735d83f7045dbdd611f6"
 name = "thank-pdf-link"
-application_url = "https://summit-legendary-chem-curtis.trycloudflare.com"
+application_url = "https://remix-checkout-ui-extension.vercel.app/"
 embedded = true
 
 [build]
@@ -28,4 +28,4 @@ api_version = "2026-01"
 scopes = "read_orders,write_products"
 
 [auth]
-redirect_urls = [ "https://summit-legendary-chem-curtis.trycloudflare.com/api/auth" ]
+redirect_urls = [ "https://remix-checkout-ui-extension.vercel.app//api/auth" ]
