@@ -1,0 +1,10 @@
+node_modules
+.dev
+extensions
+*.sqlite
+*.sqlite-journal
+public/pdfs
+.env
+.env.local
+.DS_Store
+
