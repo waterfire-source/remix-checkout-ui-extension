@@ -1,7 +1,8 @@
 // Vercel serverless function wrapper for React Router
 // This file is required for Vercel to properly serve your React Router app
 
-import { createRequestHandler } from "@react-router/node";
+import pkg from "@react-router/node";
+const { createRequestHandler } = pkg;
 import * as build from "../build/server/index.js";
 
 const handler = createRequestHandler({
@@ -10,4 +11,3 @@ const handler = createRequestHandler({
 });
 
 export default handler;
-
