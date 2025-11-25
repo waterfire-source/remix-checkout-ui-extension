@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+}
+
+model LetterTemplate {
+  id          String   @id @default(uuid())
+  name        String
+  productId   String?  // Shopify product ID (optional - can be null for templates not yet assigned)
+  productHandle String? // Product handle for easier lookup
+  htmlContent String   // HTML template with placeholders like {{name}}, {{message}}, etc.
+  cssContent  String?  // Optional CSS styling
+  isActive    Boolean  @default(true)
+  season      String?  // e.g., "Christmas 2024", "Valentines 2025"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  shop        String   // Store shop domain
+
+  @@index([shop, productId])
+  @@index([shop, isActive])
+}
+
+model GeneratedPdf {
+  id              String   @id @default(uuid())
+  orderId         String   // Shopify order ID
+  orderNumber     String   // Order number for display
+  orderName       String   // Order name (e.g., #1001)
+  lineItemId      String   // Shopify line item ID
+  productId       String   // Shopify product ID
+  productTitle    String   // Product title
+  customerEmail   String
+  templateId      String   // Reference to LetterTemplate
+  pdfUrl          String   // URL to generated PDF (stored in cloud storage or served directly)
+  pdfKey          String?  // Storage key if using S3/cloud storage
+  personalizationData Json // Store all Zepto personalization data as JSON
+  imageUrl        String? // URL to uploaded customer image if applicable
+  imageKey        String? // Storage key for uploaded image
+  downloadToken   String  @default(uuid()) // Secure token for download links
+  emailSent       Boolean @default(false)
+  emailSentAt     DateTime?
+  createdAt       DateTime @default(now())
+  shop            String   // Store shop domain
+
+  @@index([orderId])
+  @@index([orderNumber])
+  @@index([customerEmail])
+  @@index([downloadToken])
+  @@index([shop])
+}
+
+model ProductConfig {
+  id            String   @id @default(uuid())
+  productId     String   @unique // Shopify product ID
+  productHandle String   // Product handle
+  productTitle  String   // Product title
+  isDigitalTier Boolean  @default(false) // Is this a digital tier product?
+  templateId    String?  // Associated template ID
+  requiresImage Boolean  @default(false) // Does this product require image upload?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  shop          String   // Store shop domain
+
+  @@index([shop, productId])
+  @@index([shop, isDigitalTier])
+}
