@@ -1,4 +1,5 @@
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 
 function escapeHtml(text) {
   const map = {
@@ -148,15 +149,22 @@ async function generatePDFWithPuppeteer({ htmlContent, imageUrl }) {
   let browser;
 
   try {
+    // Use local chromium in development, serverless chromium in production
+    const isDev = process.env.NODE_ENV !== "production";
+    
     browser = await puppeteer.launch({
-      headless: true,
-      args: [
+      args: isDev ? [
         "--no-sandbox",
         "--disable-setuid-sandbox",
         "--disable-dev-shm-usage",
         "--disable-accelerated-2d-canvas",
         "--disable-gpu",
-      ],
+      ] : chromium.args,
+      defaultViewport: chromium.defaultViewport,
+      executablePath: isDev 
+        ? undefined // Use bundled Chromium in development
+        : await chromium.executablePath(),
+      headless: chromium.headless,
     });
 
     const page = await browser.newPage();
