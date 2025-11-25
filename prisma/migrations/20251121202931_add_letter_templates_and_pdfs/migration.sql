@@ -1,6 +1,6 @@
 -- CreateTable
 CREATE TABLE "LetterTemplate" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "productId" TEXT,
     "productHandle" TEXT,
@@ -8,14 +8,16 @@ CREATE TABLE "LetterTemplate" (
     "cssContent" TEXT,
     "isActive" BOOLEAN NOT NULL DEFAULT true,
     "season" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    "shop" TEXT NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "shop" TEXT NOT NULL,
+
+    CONSTRAINT "LetterTemplate_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "GeneratedPdf" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "orderId" TEXT NOT NULL,
     "orderNumber" TEXT NOT NULL,
     "orderName" TEXT NOT NULL,
@@ -31,23 +33,27 @@ CREATE TABLE "GeneratedPdf" (
     "imageKey" TEXT,
     "downloadToken" TEXT NOT NULL,
     "emailSent" BOOLEAN NOT NULL DEFAULT false,
-    "emailSentAt" DATETIME,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "shop" TEXT NOT NULL
+    "emailSentAt" TIMESTAMP(3),
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "shop" TEXT NOT NULL,
+
+    CONSTRAINT "GeneratedPdf_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "ProductConfig" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "productId" TEXT NOT NULL,
     "productHandle" TEXT NOT NULL,
     "productTitle" TEXT NOT NULL,
     "isDigitalTier" BOOLEAN NOT NULL DEFAULT false,
     "templateId" TEXT,
     "requiresImage" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    "shop" TEXT NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "shop" TEXT NOT NULL,
+
+    CONSTRAINT "ProductConfig_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
